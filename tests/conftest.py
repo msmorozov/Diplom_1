@@ -58,7 +58,7 @@ def bun_fixture(request):
 def db():
     return Database()
 
-# Фикстуры для базы данных с параметризацией
+# Фикстуры для бд с параметризацией
 @pytest.fixture(params=[
     ("black bun", 100),
     ("white bun", 200),
