@@ -1,40 +1,33 @@
 from unittest.mock import Mock
-from praktikum.ingredient import Ingredient
-from praktikum.bun import Bun
 
 
 class TestBurger:
 
-    def test_set_buns(self, burger):
-        bun = Bun('Бриошь', 100.0)
-        burger.set_buns(bun)
-        assert burger.bun.get_name() == 'Бриошь'
+    def test_set_buns(self, burger, bun_fixture):
+        burger.set_buns(bun_fixture)
+        assert burger.bun.get_name() == bun_fixture.get_name()
 
-    def test_add_ingredients(self, burger):
-        ingredient = Ingredient('секретный', 'ингридиент', 100.0)
-        burger.add_ingredient(ingredient)
-        assert burger.ingredients[0] == ingredient
+    def test_add_ingredients(self, burger, mock_ingredient1):
+        burger.add_ingredient(mock_ingredient1)
+        assert burger.ingredients[0] == mock_ingredient1
 
-    def test_remove_ingredient(self, burger):
-        ingredient_1 = Ingredient('ингридиент', 'соус', 100.0)
-        ingredient_2 = Ingredient('ингридиент', 'начинка', 200.0)
-        burger.add_ingredient(ingredient_1)
-        burger.add_ingredient(ingredient_2)
+    def test_remove_ingredient(self, burger, mock_ingredient1, mock_ingredient2):
+        burger.add_ingredient(mock_ingredient1)
+        burger.add_ingredient(mock_ingredient2)
         burger.remove_ingredient(1)
-        assert burger.ingredients == [ingredient_1]
+        assert burger.ingredients == [mock_ingredient1]
 
-    def test_move_ingredient(self, burger):
-        ingredient_1 = Ingredient('ингридиент', 'соус', 100.0)
-        ingredient_2 = Ingredient('ингридиент', 'начинка', 200.0)
-        burger.add_ingredient(ingredient_1)
-        burger.add_ingredient(ingredient_2)
+    def test_move_ingredient(self, burger, mock_ingredient1, mock_ingredient2):
+        burger.add_ingredient(mock_ingredient1)
+        burger.add_ingredient(mock_ingredient2)
         burger.move_ingredient(1, 0)
-        assert burger.ingredients == [ingredient_2, ingredient_1]
+        assert burger.ingredients == [mock_ingredient2, mock_ingredient1]
 
     def test_get_price(self, burger, bun_mock, ingredient_mock):
         burger.bun = bun_mock
         burger.ingredients = [ingredient_mock]
-        assert burger.get_price() == 700.0
+        expected_price = bun_mock.get_price()*2 + ingredient_mock.get_price()
+        assert burger.get_price() == expected_price
 
     def test_get_receipt(self, burger, mock_bun, mock_ingredient1, mock_ingredient2):
         burger.bun = mock_bun

@@ -76,7 +76,7 @@ def bun_data(request):
     ("filling", "dinosaur", 200),
     ("filling", "sausage", 300)
 ])
-def ingredient_data(request):
+def ingredient_data_param(request):
     return request.param
 
 # Параметризованные фикстуры для объекта Ingredient
@@ -85,5 +85,5 @@ def ingredient_data(request):
     ("Соус", "ингредиент", 200),
     ("Лист салата", "овощ", 50)
 ])
-def ingredient_data(request):
+def ingredient_data_fixture(request):
     return request.param
